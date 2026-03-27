@@ -1,0 +1,268 @@
+---
+import { siteConfig } from '../site.config';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import LinkButton from '../components/LinkButton.astro';
+import Card from '../components/Card.astro';
+import ResearchModal from '../components/ResearchModal.astro';
+
+const { profile, links, featured, projects, writings, presentations, education, experience, awards, contact } = siteConfig;
+
+// Filter content for Research
+const researchFeatured = featured.filter(p => p.category === 'research');
+const researchWritings = writings.filter(a => a.category === 'research');
+---
+
+<BaseLayout isDark={false}>
+  {/* Hero Section */}
+  <section class="mb-16">
+    <div class="flex justify-between items-start">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold mb-2 text-gray-900">{profile.name}</h1>
+        <p class="text-lg text-gray-800 mb-6 font-medium">Master's Student at Keio University</p>
+      </div>
+      
+      {/* Page Switcher */}
+      <a href="/dev" class="text-xs font-mono border border-gray-300 rounded px-2 py-1 text-gray-500 hover:bg-gray-100 transition-colors">
+        Go to /dev
+      </a>
+    </div>
+    
+    <div class="space-y-1 text-gray-800 mb-8 leading-relaxed">
+      {profile.bullets.map((bullet) => (
+        <p>• {bullet}</p>
+      ))}
+    </div>
+
+    {/* Links */}
+    <div class="flex flex-wrap gap-3">
+      {links.cv && (
+        <LinkButton href={links.cv} target="_blank" rel="noopener noreferrer" class="text-xs">
+          CV (PDF)
+        </LinkButton>
+      )}
+      {links.github && (
+        <LinkButton href={links.github} target="_blank" rel="noopener noreferrer" class="text-xs">
+          GitHub
+        </LinkButton>
+      )}
+    </div>
+  </section>
+
+  {/* Navigation Tabs (Visual only, to indicate current page) */}
+  <div class="flex border-b border-gray-200 mb-10">
+    <div class="px-6 py-3 text-sm font-medium border-b-2 border-black text-black">
+      Research
+    </div>
+    <a href="/dev" class="px-6 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors">
+      Dev
+    </a>
+  </div>
+
+  {/* Research Content */}
+  <div class="animate-fade-in">
+    {/* Featured Section (Research Topics) */}
+    {researchFeatured.length > 0 && (
+      <section>
+        <SectionHeader title="Research Topics" />
+        <div class="grid md:grid-cols-1 gap-6">
+          {researchFeatured.map((project, index) => (
+            <>
+              <Card project={project} modalId={`modal-research-${index}`} />
+              <ResearchModal id={`modal-research-${index}`} project={project} />
+            </>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {/* Presentations Section */}
+    {presentations.length > 0 && (
+      <section>
+        <SectionHeader title="Presentations" />
+        <div class="space-y-4">
+          {presentations.map((pres) => (
+            <div class="block p-4 -mx-4 rounded-lg hover:bg-gray-50 transition-colors">
+              <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-1">
+                <h3 class="text-base font-bold text-gray-900">
+                  {pres.title}
+                </h3>
+                <span class="text-xs text-gray-500 font-mono flex-shrink-0 md:ml-4">{pres.date}</span>
+              </div>
+              {pres.authors && (
+                <div class="text-sm text-gray-600 mb-1">
+                  {pres.authors}
+                </div>
+              )}
+              <div class="text-sm text-gray-600 flex flex-wrap gap-2 items-center">
+                {pres.eventUrl ? (
+                  <a href={pres.eventUrl} target="_blank" rel="noopener noreferrer" class="font-medium text-gray-700 hover:text-blue-600 hover:underline">
+                    {pres.event}
+                  </a>
+                ) : (
+                  <span class="font-medium text-gray-700">{pres.event}</span>
+                )}
+                
+                {pres.location && (
+                  <span class="text-gray-500">@ {pres.location}</span>
+                )}
+
+                {pres.link && (
+                  <>
+                    <span class="text-gray-300">|</span>
+                    <a href={pres.link} target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">View Material</a>
+                  </>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {/* Education Section */}
+    {education.length > 0 && (
+      <section>
+        <SectionHeader title="Education" />
+        <div class="space-y-4">
+          {education.map((edu) => (
+            <div class="flex justify-between items-baseline">
+              <div>
+                {edu.link ? (
+                  <a href={edu.link} target="_blank" rel="noopener noreferrer" class="font-bold text-gray-900 hover:text-blue-600 hover:underline transition-colors">
+                    {edu.institution}
+                  </a>
+                ) : (
+                  <span class="font-bold text-gray-900">{edu.institution}</span>
+                )}
+                <span class="ml-2 text-sm text-gray-600">{edu.degree}</span>
+              </div>
+              <span class="text-xs text-gray-500 font-mono">{edu.date}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {/* Experience Section */}
+    {experience.length > 0 && (
+      <section>
+        <SectionHeader title="Experience" />
+        <div class="space-y-4">
+          {experience.map((exp) => (
+            <div class="flex justify-between items-baseline">
+              <div>
+                <span class="font-bold text-gray-900">{exp.role}</span>
+                <span class="ml-2 text-sm text-gray-600">at {exp.organization}</span>
+              </div>
+              <span class="text-xs text-gray-500 font-mono">{exp.date}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {/* Awards Section */}
+    {awards && awards.length > 0 && (
+      <section>
+        <SectionHeader title="Awards & Scholarships" />
+        <div class="space-y-4">
+          {awards.map((award) => (
+            <div class="flex justify-between items-baseline">
+              <span class="font-bold text-gray-900">{award.title}</span>
+              <span class="text-xs text-gray-500 font-mono">{award.date}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {/* Writing Section */}
+    {researchWritings.length > 0 && (
+      <section>
+        <SectionHeader title="Research Notes" />
+        <div class="space-y-4">
+          {researchWritings.map((article) => (
+            <a href={article.link} target="_blank" rel="noopener noreferrer" class="block p-4 -mx-4 rounded-lg hover:bg-gray-100 transition-colors group">
+              <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-1">
+                <h3 class="text-base font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                  {article.title}
+                </h3>
+                <span class="text-xs text-gray-500 font-mono flex-shrink-0 md:ml-4">{article.date}</span>
+              </div>
+              <p class="text-sm text-gray-600">
+                {article.summary}
+              </p>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {/* Contact Section */}
+    <section id="contact" class="mb-20 mt-16">
+      <SectionHeader title="Contact" />
+      <div class="flex">
+        <LinkButton href={contact.formUrl} target="_blank" rel="noopener noreferrer" variant="primary">
+          お問い合わせフォーム
+        </LinkButton>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Modal Logic
+    const modalTriggers = document.querySelectorAll('[data-modal-trigger]');
+    const modals = document.querySelectorAll('.modal');
+    const closeButtons = document.querySelectorAll('.modal-close');
+    const backdrops = document.querySelectorAll('.modal-backdrop');
+
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+      }
+    }
+
+    function closeModal(modal) {
+      modal.classList.add('hidden');
+      document.body.style.overflow = ''; // Restore scrolling
+    }
+
+    modalTriggers.forEach(trigger => {
+      trigger.addEventListener('click', (e) => {
+        // Prevent opening if clicking on a link inside the card
+        if ((e.target as HTMLElement).closest('a')) return;
+        
+        const id = trigger.getAttribute('data-modal-trigger');
+        if (id) openModal(id);
+      });
+    });
+
+    closeButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const modal = (e.target as HTMLElement).closest('.modal');
+        if (modal) closeModal(modal);
+      });
+    });
+
+    backdrops.forEach(backdrop => {
+      backdrop.addEventListener('click', (e) => {
+        const modal = (e.target as HTMLElement).closest('.modal');
+        if (modal) closeModal(modal);
+      });
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        modals.forEach(modal => {
+          if (!modal.classList.contains('hidden')) {
+            closeModal(modal);
+          }
+        });
+      }
+    });
+  </script>
+</BaseLayout>

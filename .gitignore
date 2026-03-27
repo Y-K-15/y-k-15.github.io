@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Astro build artifacts
+dist/
+.astro/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local OS / editor artifacts
+.DS_Store
+
+# Local backup / scratch files
+_backup_jekyll/
+temp_program.pdf

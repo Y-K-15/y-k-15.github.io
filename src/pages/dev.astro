@@ -1,0 +1,122 @@
+---
+import { siteConfig } from '../site.config';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import LinkButton from '../components/LinkButton.astro';
+import Card from '../components/Card.astro';
+
+const { profile, links, featured, projects, writings, contact } = siteConfig;
+
+// Filter content for Dev
+const devFeatured = featured.filter(p => p.category === 'dev');
+const devProjects = projects.filter(p => p.category === 'dev');
+const devWritings = writings.filter(a => a.category === 'dev');
+---
+
+<BaseLayout isDark={true} title="Dev">
+  {/* Hero Section */}
+  <section class="mb-16">
+    <div class="flex justify-between items-start">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold mb-2 text-green-500 font-mono">
+          &gt; {profile.name}_
+        </h1>
+        <p class="text-lg text-green-400 mb-6 font-medium font-mono">
+          // Indie Hacker (self-proclaimed)
+        </p>
+      </div>
+      
+      {/* Page Switcher */}
+      <a href="/" class="text-xs font-mono border border-green-800 text-green-600 hover:bg-green-900/30 rounded px-2 py-1 transition-colors">
+        cd ../research
+      </a>
+    </div>
+    
+    <div class="space-y-1 text-gray-300 mb-8 leading-relaxed font-mono text-sm">
+      {profile.bullets.map((bullet) => (
+        <p class="flex items-start">
+          <span class="text-green-600 mr-2">$</span>
+          {bullet}
+        </p>
+      ))}
+    </div>
+
+    {/* Links */}
+    <div class="flex flex-wrap gap-3 font-mono">
+      {links.github && (
+        <LinkButton href={links.github} target="_blank" rel="noopener noreferrer" class="text-xs">
+          GitHub
+        </LinkButton>
+      )}
+    </div>
+  </section>
+
+  {/* Navigation Tabs */}
+  <div class="flex border-b border-gray-700 mb-10 font-mono">
+    <a href="/" class="px-6 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-green-300 transition-colors">
+      Research
+    </a>
+    <div class="px-6 py-3 text-sm font-medium border-b-2 border-white text-white">
+      Dev
+    </div>
+  </div>
+
+  {/* Dev Content */}
+  <div class="animate-fade-in">
+    {/* Featured Section */}
+    {devFeatured.length > 0 && (
+      <section>
+        <SectionHeader title="Featured Works" />
+        <div class="grid md:grid-cols-1 gap-6">
+          {devFeatured.map((project) => (
+            <Card project={project} />
+          ))}
+        </div>
+      </section>
+    )}
+
+    {/* Projects Section */}
+    {devProjects.length > 0 && (
+      <section>
+        <SectionHeader title="Dev Projects" />
+        <div class="grid md:grid-cols-2 gap-4">
+          {devProjects.map((project) => (
+            <Card project={project} />
+          ))}
+        </div>
+      </section>
+    )}
+
+    {/* Writing Section */}
+    {devWritings.length > 0 && (
+      <section>
+        <SectionHeader title="Dev Notes" />
+        <div class="space-y-4">
+          {devWritings.map((article) => (
+            <a href={article.link} target="_blank" rel="noopener noreferrer" class="block p-4 -mx-4 rounded-lg hover:bg-gray-900 transition-colors group border border-transparent hover:border-green-900/30">
+              <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-1">
+                <h3 class="text-base font-bold text-gray-200 group-hover:text-green-500 transition-colors font-mono">
+                  {article.title}
+                </h3>
+                <span class="text-xs text-gray-500 font-mono flex-shrink-0 md:ml-4">{article.date}</span>
+              </div>
+              <p class="text-sm text-gray-400">
+                {article.summary}
+              </p>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {/* Contact Section */}
+    <section id="contact" class="mb-20 mt-16 font-mono">
+      <SectionHeader title="Contact" />
+      <div class="flex">
+        <LinkButton href={contact.formUrl} target="_blank" rel="noopener noreferrer" variant="primary" class="dark:bg-green-500 dark:text-black dark:hover:bg-green-400">
+          お問い合わせフォーム
+        </LinkButton>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

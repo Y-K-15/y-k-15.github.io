@@ -65,6 +65,14 @@ const presentationsData: Presentation[] = [
     date: "2026-02-22",
     location: "香川大学",
   },
+  {
+    title: "土地利用規制が不動産価格に与える影響（京都市における建築物の高さ規制の事例）",
+    authors: "横山 健人",
+    event: "第35回 地理情報システム学会 学術研究発表大会 (GISA 2026)",
+    eventUrl: "https://pub.confit.atlas.jp/ja/event/gisa2026",
+    date: "2026-11-01",
+    location: "東京科学大学 大岡山キャンパス",
+  },
 ];
 
 export const siteConfig = {
@@ -74,7 +82,7 @@ export const siteConfig = {
       "Master's Student at Keio University / Indie Hacker (self-proclaimed)",
     bullets: [
       "慶應義塾大学大学院 商学研究科 修士課程（都市経済学・実証分析）",
-      "研究：土地利用規制 × 住宅価格/人口移動",
+      "研究：土地利用規制 × 不動産市場",
       "Build：日常の様々な面倒を減らすツールを個人開発",
     ],
   },
@@ -85,7 +93,7 @@ export const siteConfig = {
   },
   featured: [
     {
-      title: "Comming Soon",
+      title: "Coming Soon",
       description: "Coming Soon",
       role: "--",
       tags: [],
@@ -94,14 +102,15 @@ export const siteConfig = {
     },
 
     {
-      title: "土地利用規制が住宅価格・土地価格・人口流動に与える影響 (京都市における建築物の高さ規制の事例)",
+      title: "土地利用規制と不動産市場: 京都市における建築物高さ規制の事例",
       description:
-        "京都市における建築物の高さ規制が住宅価格、土地価格、および人口流動に与える影響を準自然実験的手法を用いて推定する。",
+        "京都市の高度地区を対象に、建築物の高さ上限とマンション価格・地価の関係を、都心からの距離による違いに注目して分析する。",
       role: "Master's Thesis",
       tags: ["Master Thesis","Urban Economics", "Housing Market", "Kyoto"],
       link: "",
       category: "research",
       authors: "Supervisor: 大野由香子 教授",
+      relatedPresentations: [presentationsData[2]],
     },
     {
       title: "自動車部品サプライネットワークにおける取引距離と部品の技術革新度",
@@ -185,7 +194,7 @@ export const siteConfig = {
   awards: [
     {
       title: "小泉信三記念大学院特別奨学研究生",
-      date: "2025年4月 - 2026年3月",
+      date: "2025年4月 - 2027年3月",
     },
   ] as Award[],
   contact: {
